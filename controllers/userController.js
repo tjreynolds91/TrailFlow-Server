@@ -1,7 +1,7 @@
 const { UserModel } = require("../models/modelsIndex");
 const sequelize = require("../db");
 const { Router } = require("express");
-const bcrypt = require("bcryptjs");
+const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UniqueContsraintError } = require("sequelize/lib/errors");
 const validateSession = require("../middleware/validate-session");
@@ -14,10 +14,11 @@ const userController = Router();
 
 userController.post("/register", async (req, res) => {
   let { email, password } = req.body;
+  console.log(email, password);
   if (password.length >= 8) {
     try {
       await UserModel.create({
-        emial: email,
+        email: email,
         passwordhash: bcrypt.hashSync(password, 10),
       }).then((data) => {
         const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET);
@@ -33,7 +34,7 @@ userController.post("/register", async (req, res) => {
         });
       } else {
         res.status(500).json({
-          message: "Registration",
+          message: "Registration failed",
         });
       }
     }
@@ -88,6 +89,13 @@ userController.delete("/deleteuser", validateSession, async (req, res) => {
       message: `Failed to Delete User`,
     });
   }
+});
+/****************
+ * Test Get Route
+ *****************/
+
+userController.get("/getuser", async (req, res) => {
+  res.send("Did I work?");
 });
 
 module.exports = userController;
