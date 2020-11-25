@@ -27,6 +27,17 @@ trailFlowApp.use(
   controllers.Trail
 );
 
+trailFlowApp.use(
+  "/admin",
+  require("./middleware/validate-session"),
+  require("./middleware/adminValidation"),
+  require("./controllers/adminController")
+);
+
+/*************************
+ * DB Connection
+ *************************/
+
 sequelize
   .authenticate()
   .then(() => {
@@ -37,6 +48,17 @@ sequelize
   .catch((err) => {
     console.log("Unable to connect", err);
   });
+
+let User = require("./models/user");
+let TrailList = require("./models/trailList");
+let TrailItem = require("./models/trailItem");
+
+User.hasMany(TrailList);
+TrailList.belongsTo(User);
+User.hasMany(TrailItem);
+TrailItem.belongsTo(User); //this is only for future functionality. creates a column in the db table but will be unused at this time.
+TrailList.hasMany(TrailItem);
+TrailItem.belongsTo(TrailList);
 
 trailFlowApp.listen(process.env.PORT, () => {
   console.log(`TrailFlow is listening on port ${process.env.PORT}`);

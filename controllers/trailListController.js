@@ -22,7 +22,7 @@ trailListController.post("/newList", async (req, res) => {
       });
     } else {
       let newList = TrailListModel.create({
-        owner: owner,
+        userId: owner,
         title: title,
       });
       res.status(201).json({
