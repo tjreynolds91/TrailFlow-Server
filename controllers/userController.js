@@ -23,6 +23,7 @@ userController.post("/register", async (req, res) => {
       }).then((data) => {
         const token = jwt.sign({ id: data.id }, process.env.JWT_SECRET);
         res.status(201).json({
+          data: data,
           message: "Success: Account created! Ride on!",
           token: token,
         });
