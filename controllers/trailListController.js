@@ -9,13 +9,14 @@ const trailListController = Router();
 /*****************************
  * Create List
  *****************************/
-trailListController.post("/newList", async (req, res) => {
+trailListController.post("/newlist", async (req, res) => {
   const owner = req.user.id;
   const { title } = req.body;
   try {
     let listCheck = await TrailListModel.findOne({
       where: { owner: owner, title: title }, //*one User cannot use same list title twice.
     });
+    console.log(listCheck);
     if (listCheck !== null) {
       res.status(400).json({
         message: "List already exists.",
