@@ -12,33 +12,32 @@ const trailListController = Router();
 trailListController.post("/newlist", async (req, res) => {
   const owner = req.user.id;
   const { title } = req.body;
-  // try {
-  let listCheck = await TrailListModel.findOne({
-    where: { owner: owner, title: title }, //*one User cannot use same list title twice.
-  });
-  console.log(listCheck);
-  if (listCheck !== null) {
-    res.status(400).json({
-      message: "List already exists.",
+  try {
+    let listCheck = await TrailListModel.findOne({
+      where: { owner: owner, title: title }, //*one User cannot use same list title twice.
     });
-  } else {
-    let newList = TrailListModel.create({
-      userId: owner,
-      title: title,
-    });
-    res.status(201).json({
-      result: newList,
-      message: "List Created.",
-    });
+    console.log(listCheck);
+    if (listCheck !== null) {
+      res.status(400).json({
+        message: "List already exists.",
+      });
+    } else {
+      let newList = TrailListModel.create({
+        userId: owner,
+        title: title,
+      });
+      res.status(201).json({
+        result: newList,
+        message: "List Created.",
+      });
+    }
+  } catch (err) {
+    {
+      res.status(500).json({
+        message: "Failed to create list.",
+      });
+    }
   }
-  // }
-  //  catch (err) {
-  //   {
-  //     res.status(500).json({
-  //       message: "Failed to create list.",
-  //     });
-  //   }
-  // }
 });
 
 /******************************
