@@ -123,7 +123,7 @@ trailItemController.route("/update/:id").put(async (req, res) => {
 });
 
 /******************************
- * GET SINGLE BOOK
+ * GET SINGLE Trail
  ******************************/
 trailItemController.get("/singleTrail/:id", async (req, res) => {
   const trailID = req.params.id;
@@ -148,7 +148,7 @@ trailItemController.get("/singleTrail/:id", async (req, res) => {
 });
 
 /******************************
- * GET ALL BOOKS FOR LIST
+ * GET ALL Trails FOR LIST
  ******************************/
 
 trailItemController.get("/listTrails/:id", async (req, res) => {

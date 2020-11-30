@@ -9,12 +9,12 @@ const trailListController = Router();
 /*****************************
  * Create List
  *****************************/
-trailListController.post("/newlist", async (req, res) => {
+trailListController.post("/newList", async (req, res) => {
   const owner = req.user.id;
   const { title } = req.body;
   try {
-    let listCheck = await TrailListModel.create({
-      where: { owner: owner, title: title }, //*one User cannot use same list title twice.
+    let listCheck = await TrailListModel.findOne({
+      where: { userId: owner, title: title }, //*one User cannot use same list title twice.
     });
     console.log(listCheck);
     if (listCheck !== null) {
@@ -48,7 +48,7 @@ trailListController.get("/allLists", async (req, res) => {
 
   try {
     let allLists = await TrailListModel.findAll({
-      where: { owner: trailListOwner },
+      where: { userId: trailListOwner },
     }).then((data) => {
       //if list(s) returned, display the list(s); else display message
       if (data.length > 0) {
@@ -74,7 +74,7 @@ trailListController.get("/singleList/:id", async (req, res) => {
 
   try {
     let singleList = await TrailListModel.findOne({
-      where: { id: listID, owner: listOwner },
+      where: { id: listID, userId: listOwner },
     }).then((data) => {
       // if list returned , display the list; else display message
       if (data !== null) {
@@ -102,7 +102,7 @@ trailListController.put("/update/:id", async (req, res) => {
   try {
     // select a list hwere id = listID and owner = listOwner
     let updateList = await TrailListModel.findOne({
-      where: { id: listID, owner: listOwner },
+      where: { id: listID, userId: listOwner },
     });
     // if updatelist and updatedTitle both exist,
     // update title to updatedTitle, and respond with status(200) and message.
@@ -125,7 +125,7 @@ trailListController.put("/update/:id", async (req, res) => {
 /*****************************
  * Delete List
  *****************************/
-trailListController.delete("/deletelist/:id", async (req, res) => {
+trailListController.delete("/deleteList/:id", async (req, res) => {
   try {
     const removedList = await TrailListModel.destroy({
       where: { id: req.params.id },
