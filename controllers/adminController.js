@@ -13,7 +13,7 @@ const adminController = Router();
  * Delete User as an Admin Route
  *************************/
 adminController.delete(
-  "/admindeleteuser",
+  "/deleteUser",
   validateSession,
   adminValidation,
   async (req, res) => {

@@ -19,6 +19,7 @@ const TrailItemModel = sequelize.define("trail", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+
   difficulty: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -41,59 +42,63 @@ const TrailItemModel = sequelize.define("trail", {
   },
   imgSqSmall: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   imgSmall: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   imgSmallMed: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   imgMedium: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   length: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   ascent: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   decent: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   high: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   low: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   longitude: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   latitude: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
   conditionStatus: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   conditionDetails: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   conditionDate: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
+  },
+  ridden: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
   },
 });
 // };

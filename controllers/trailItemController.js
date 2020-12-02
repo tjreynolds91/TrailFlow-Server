@@ -26,6 +26,7 @@ trailItemController.post("/addTrail", async (req, res) => {
     imgSqSmall,
     imgSmall,
     imgSmallMed,
+    ridden,
   } = req.body.trail; //all information should be put inside a trail object
   try {
     const trailList = await TrailListModel.findOne({
@@ -57,6 +58,7 @@ trailItemController.post("/addTrail", async (req, res) => {
         imgSqSmall,
         imgSmall,
         imgSmallMed,
+        ridden,
       });
       res.status(200).json({
         result: newTrail,
@@ -72,20 +74,20 @@ trailItemController.post("/addTrail", async (req, res) => {
 });
 
 /****************************
- * UPDATE Trail ITEM (two values available to update, listID and riden.)
+ * UPDATE Trail ITEM (two values available to update, listID and ridden.)
  ****************************/
 
 trailItemController.route("/update/:id").put(async (req, res) => {
   const listOwner = req.user.id;
   const trailID = req.params.id;
-  const { newListTitle, riden } = req.body;
+  const { listTitle, ridden } = req.body;
   try {
-    if (newListTitle) {
+    if (listTitle) {
       await TrailListModel.findOne({
-        where: { title: newListTitle, owner: listOwner },
+        where: { title: listTitle, userId: listOwner },
       }).then((data) => {
         TrailItemModel.update(
-          { listID: data.id, riden: riden },
+          { trailListId: data.id, ridden: ridden },
           { returning: true, where: { id: trailID } }
         )
           .then(([rowsUpdate, [updatedTrail]]) => {
@@ -100,7 +102,7 @@ trailItemController.route("/update/:id").put(async (req, res) => {
       });
     } else {
       TrailItemModel.update(
-        { riden },
+        { ridden },
         { returning: true, where: { id: trailID } }
       ).then(([rowsUpdate, [updatedTrail]]) => {
         res
@@ -129,7 +131,7 @@ trailItemController.get("/singleTrail/:id", async (req, res) => {
   const trailID = req.params.id;
   const ownerID = req.user.id;
   try {
-    TrailItemModel.findOne({ where: { id: trailID, ownerID: ownerID } }).then(
+    TrailItemModel.findOne({ where: { id: trailID, userId: ownerID } }).then(
       (data) => {
         if (data !== null) {
           res.status(200).json({
@@ -153,19 +155,21 @@ trailItemController.get("/singleTrail/:id", async (req, res) => {
 
 trailItemController.get("/listTrails/:id", async (req, res) => {
   //! The id is for a list, not a trail!
-  const listID = req.params.id;
+  const trailListId = req.params.id;
   try {
-    TrailItemModel.findAll({ where: { listID: listID } }).then((data) => {
-      if (data !== null) {
-        res.status(200).json({
-          data,
-        });
-      } else {
-        res.status(404).json({
-          message: "No list found",
-        });
+    TrailItemModel.findAll({ where: { trailListId: trailListId } }).then(
+      (data) => {
+        if (data !== null) {
+          res.status(200).json({
+            data,
+          });
+        } else {
+          res.status(404).json({
+            message: "No list found",
+          });
+        }
       }
-    });
+    );
   } catch (err) {
     res.status(500).json({ err, message: "Server Error" });
   }
