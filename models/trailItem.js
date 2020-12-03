@@ -25,11 +25,11 @@ const TrailItemModel = sequelize.define("trail", {
     allowNull: false,
   },
   stars: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   starVotes: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   location: {
@@ -57,7 +57,7 @@ const TrailItemModel = sequelize.define("trail", {
     allowNull: true,
   },
   length: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   ascent: {
