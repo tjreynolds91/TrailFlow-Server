@@ -70,6 +70,7 @@ trailItemController.post("/addTrail", async (req, res) => {
       result: err,
       message: `Trail failed to be added to list. ${err}`,
     });
+    console.log(err);
   }
 });
 
