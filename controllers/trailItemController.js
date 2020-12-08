@@ -10,10 +10,11 @@ const trailItemController = Router();
 
 trailItemController.post("/addTrail", async (req, res) => {
   const owner = req.user.id; //user who owns the list
+  const { title } = req.body;
   const {
     //values mapped onto my table.
     //use the names for setting up my fetch.
-    listTitle, //need to know variable name for a modal fetch call
+    // listTitle, //need to know variable name for a modal fetch call
     mtbID,
     name,
     type,
@@ -32,20 +33,14 @@ trailItemController.post("/addTrail", async (req, res) => {
     const trailList = await TrailListModel.findOne({
       //find the list to be associated with book
       where: {
-        title: listTitle,
+        title: title,
         userId: owner,
       },
     });
-    if (trailList === null) {
-      //No such list? Throw error.
-      res.status(404).json({
-        message: "No list found",
-      });
-    } else {
+    if (trailList !== null) {
       let newTrail = await TrailItemModel.create({
         //create trail tied to list id
-        trailListId: trailList.id,
-        userId: owner,
+
         mtbID,
         name,
         type,
@@ -59,10 +54,17 @@ trailItemController.post("/addTrail", async (req, res) => {
         imgSmall,
         imgSmallMed,
         ridden,
+        userId: owner,
+        trailListId: trailList.id,
       });
       res.status(200).json({
         result: newTrail,
         message: "Trail added to list.",
+      });
+    } else {
+      //No such list? Throw error.
+      res.status(404).json({
+        message: "No list found",
       });
     }
   } catch (err) {
