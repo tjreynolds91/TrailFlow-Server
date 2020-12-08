@@ -1,4 +1,4 @@
-const { UserModel } = require("../models/modelsIndex");
+const { UserModel } = require("../models");
 
 const adminValidation = async (req, res, next) => {
   try {
