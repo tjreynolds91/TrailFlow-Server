@@ -3,7 +3,8 @@ const express = require("express");
 const trailFlowApp = express();
 const sequelize = require("./db");
 const controllers = require("./controllers/controllerIndex");
-
+const validateSession = require("./middleware/validate-session");
+const AdminValidate = require("./middleware/adminValidation");
 trailFlowApp.use(express.json());
 trailFlowApp.use(require("./middleware/headers"));
 
@@ -15,22 +16,14 @@ trailFlowApp.use("/user", controllers.User);
 /***********************
  *  AUTHENTICATED ROUTES
  ***********************/
-trailFlowApp.use(
-  "/list",
-  require("./middleware/validate-session"),
-  controllers.List
-);
+trailFlowApp.use("/list", validateSession, controllers.List);
 
-trailFlowApp.use(
-  "/trail",
-  require("./middleware/validate-session"),
-  controllers.Trail
-);
+trailFlowApp.use("/trail", validateSession, controllers.Trail);
 
 trailFlowApp.use(
   "/admin",
-  require("./middleware/validate-session"),
-  require("./middleware/adminValidation"),
+  validateSession,
+  AdminValidate,
   require("./controllers/adminController")
 );
 
