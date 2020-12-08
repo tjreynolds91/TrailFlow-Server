@@ -11,6 +11,7 @@ const trailItemController = Router();
 trailItemController.post("/addTrail", async (req, res) => {
   const owner = req.user.id; //user who owns the list
   const listTitle = req.trailList.title;
+  console.log(listTitle);
   const {
     //values mapped onto my table.
     //use the names for setting up my fetch.
@@ -37,12 +38,7 @@ trailItemController.post("/addTrail", async (req, res) => {
         userId: owner,
       },
     });
-    if (trailList === null) {
-      //No such list? Throw error.
-      res.status(404).json({
-        message: "No list found",
-      });
-    } else {
+    if (trailList !== null) {
       let newTrail = await TrailItemModel.create({
         //create trail tied to list id
         trailListId: trailList.id,
@@ -64,6 +60,11 @@ trailItemController.post("/addTrail", async (req, res) => {
       res.status(200).json({
         result: newTrail,
         message: "Trail added to list.",
+      });
+    } else {
+      //No such list? Throw error.
+      res.status(404).json({
+        message: "No list found",
       });
     }
   } catch (err) {
