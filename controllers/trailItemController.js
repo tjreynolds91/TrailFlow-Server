@@ -10,10 +10,11 @@ const trailItemController = Router();
 
 trailItemController.post("/addTrail", async (req, res) => {
   const owner = req.user.id; //user who owns the list
+  const listTitle = req.trailList.title;
   const {
     //values mapped onto my table.
     //use the names for setting up my fetch.
-    listTitle, //need to know variable name for a modal fetch call
+    // listTitle, //need to know variable name for a modal fetch call
     mtbID,
     name,
     type,
