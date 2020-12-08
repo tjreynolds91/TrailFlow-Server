@@ -1,4 +1,4 @@
-const { UserModel } = require("../models/modelsIndex");
+const { UserModel } = require("../models");
 const sequelize = require("../db");
 const { Router } = require("express");
 const bcrypt = require("bcrypt");
