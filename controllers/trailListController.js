@@ -1,7 +1,6 @@
-const { TrailListModel } = require("../models/modelsIndex");
+const { TrailListModel, TrailItemModel } = require("../model");
 const sequelize = require("../db");
 const { Router } = require("express");
-const TrailItemModel = require("../models/trailItem");
 const trailItemController = require("./trailItemController");
 
 const trailListController = Router();
