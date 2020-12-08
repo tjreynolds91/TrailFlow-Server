@@ -10,11 +10,11 @@ const trailItemController = Router();
 
 trailItemController.post("/addTrail", async (req, res) => {
   const owner = req.user.id; //user who owns the list
-  const { title } = req.body;
+  // const { title } = req.;
   const {
     //values mapped onto my table.
     //use the names for setting up my fetch.
-    // listTitle, //need to know variable name for a modal fetch call
+    listTitle, //need to know variable name for a modal fetch call
     mtbID,
     name,
     type,
@@ -33,7 +33,7 @@ trailItemController.post("/addTrail", async (req, res) => {
     const trailList = await TrailListModel.findOne({
       //find the list to be associated with book
       where: {
-        title: title,
+        title: listTitle,
         userId: owner,
       },
     });
