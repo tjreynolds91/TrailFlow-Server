@@ -34,8 +34,8 @@ trailFlowApp.use(
 sequelize
   .authenticate()
   .then(() => {
-    sequelize.sync();
-    // sequelize.sync({ force: true });
+    //sequelize.sync();
+    sequelize.sync({ force: true });
     console.log("Database connected");
   })
   .catch((err) => {

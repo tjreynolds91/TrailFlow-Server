@@ -10,7 +10,7 @@ const trailItemController = Router();
 
 trailItemController.post("/addTrail", async (req, res) => {
   const owner = req.user.id; //user who owns the list
-  // const { title } = req.;
+  //const { title } = req.body
   const {
     //values mapped onto my table.
     //use the names for setting up my fetch.
